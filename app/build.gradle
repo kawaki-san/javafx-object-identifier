@@ -9,11 +9,17 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
 }
 
 repositories {
     // Use JCenter for resolving dependencies.
     jcenter()
+}
+
+javafx{
+    version='15.0.1'
+    modules =['javafx.fxml','javafx.controls']
 }
 
 dependencies {
@@ -26,5 +32,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.rtkay.App'
+    mainClass.set('com.rtkay.App')
 }
