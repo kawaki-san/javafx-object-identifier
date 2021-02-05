@@ -3,12 +3,20 @@ package com.rtkay;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Scanner;
+
 import org.tensorflow.Graph;
 import org.tensorflow.Session;
 
@@ -36,9 +44,20 @@ public class Controller implements Initializable {
     @FXML
     private Label txtResults;
     private File selectedImage = null;
+    private byte[] graphDef;
+    private List<String> labels;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            graphDef = getClass().getResourceAsStream("tensorflow/tensorflow_inception_graph.pb").readAllBytes();
+            System.out.println(graphDef);
+            labels = copyLinesToList("tensorflow/imagenet_comp_graph_label_strings.txt");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         btnUploadImage.setOnMouseClicked(event -> {
             showFileUploadDialog();
         });
@@ -66,7 +85,27 @@ public class Controller implements Initializable {
     }
 
     private void identifyImage() {
+        byte[] imageBytes = null;
+        try {
+            imageBytes = Files.readAllBytes(selectedImage.toPath());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
+    }
+
+    /* stores a model of our known data into an array list */
+    private List<String> copyLinesToList(String path) throws IOException {
+        URL url = getClass().getResource(path);
+        File file = new File(url.getFile());
+        Scanner s = new Scanner(file);
+        ArrayList<String> list = new ArrayList<String>();
+        while (s.hasNextLine()) {
+            list.add(s.next());
+        }
+        s.close();
+        return list;
     }
 
 }

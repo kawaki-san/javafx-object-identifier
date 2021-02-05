@@ -4,3 +4,5 @@
 # Ignore Gradle build output directory
 build
 bin
+app/src/main/resources/com/rtkay/tensorflow/tensorflow_inception_graph.pb
+app/src/main/resources/com/rtkay/tensorflow/imagenet_comp_graph_label_strings.txt

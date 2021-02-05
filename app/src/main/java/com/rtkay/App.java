@@ -22,10 +22,12 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         // TODO Auto-generated method stub
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Object Identifier");
         primaryStage.show();
 
     }
+
 }
